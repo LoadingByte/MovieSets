@@ -1,3 +1,9 @@
+1.0.3
+-----
+
+### Fixes
+* Fixed the version numbers in this very changelog.
+
 1.0.2
 -----
 
