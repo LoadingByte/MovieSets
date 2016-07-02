@@ -1,0 +1,44 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+prefix: ${project.name}
+authors: [QuarterCode, LoadingByte]
+main: ${main.class}
+load: startup
+
+commands:
+    moviesets:
+        description: The main and only command for controlling the MovieSets plugin.
+        usage: /<command> <Command Label> [Parameters ...]
+        aliases: [msets, sets]
+
+permissions:
+  moviesets.*:
+    description: Grants access to all features.
+    default: op
+    children:
+      moviesets.command.*: true
+  moviesets.command.*:
+    description: Grants access to all commands.
+    children:
+      moviesets.command.help: true
+      moviesets.command.info: true
+      moviesets.command.list: true
+      moviesets.command.goto: true
+      moviesets.command.name: true
+      moviesets.command.unname: true
+      moviesets.command.clear: true
+  moviesets.command.help:
+    description: Grants access to use the help command.
+  moviesets.command.info:
+    description: Grants access to showing the plugin information.
+  moviesets.command.list:
+    description: Grants access to listing all named movie sets.
+  moviesets.command.goto:
+    description: Grants access to teleporting yourself to any movie set.
+  moviesets.command.name:
+    description: Grants access to declaring a name for any movie set.
+  moviesets.command.unname:
+    description: Grants access to removing the name of any movie set.
+  moviesets.command.clear:
+    description: Grants access to removing the names of all movie sets at once.
