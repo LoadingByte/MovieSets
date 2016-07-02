@@ -1,10 +1,10 @@
-0.1.2
+1.0.2
 -----
 
 ### Notes
 * Added deployment information to the pom.xml file. That means that a CI can now properly build and deploy this plugin.
 
-0.1.1
+1.0.1
 -----
 
 ### Additions
@@ -16,7 +16,7 @@
 ### Notes
 * Maven will publish the sources and JavaDocs from this version onwards.
 
-0.1.0
+1.0.0
 -----
 
 ### Notes
