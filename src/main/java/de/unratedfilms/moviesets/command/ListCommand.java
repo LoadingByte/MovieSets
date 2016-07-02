@@ -4,7 +4,7 @@ package de.unratedfilms.moviesets.command;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -47,7 +47,7 @@ public class ListCommand implements CommandHandler {
 
             Collections.sort(sets, new AlphabeticalMovieSetComparator());
             for (MovieSet set : sets) {
-                String leading = StringUtils.repeat('-', String.valueOf(highestIndex).length() - String.valueOf(set.getIndex()).length()) + "--";
+                String leading = StringUtils.repeat("-", String.valueOf(highestIndex).length() - String.valueOf(set.getIndex()).length()) + "--";
                 sender.sendMessage(ChatColor.GRAY + leading + " [" + ChatColor.GOLD + set.getIndex() + ChatColor.GRAY + "] " + ChatColor.DARK_AQUA + set.getName());
             }
         }
