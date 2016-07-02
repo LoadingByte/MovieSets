@@ -16,6 +16,29 @@
         <main.class>de.unratedfilms.moviesets.main.MovieSetsPlugin</main.class>
     </properties>
 
+    <organization>
+        <name>Unrated Film Industries</name>
+        <url>http://www.unratedfilmindustries.de</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>GNU General Public License Version 3</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+        </license>
+    </licenses>
+
+    <distributionManagement>
+        <repository>
+            <id>quartercode-deployment</id>
+            <url>http://repo.quartercode.com/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>quartercode-deployment</id>
+            <url>http://repo.quartercode.com/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <dependencies>
         <!-- Bukkit -->
         <dependency>
