@@ -21,7 +21,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.7.10-R0.1-SNAPSHOT</version>
+            <version>1.7.9-R0.2</version>
             <scope>provided</scope>
         </dependency>
 
@@ -29,20 +29,13 @@
         <dependency>
             <groupId>com.quartercode</groupId>
             <artifactId>quarterbukkit-plugin</artifactId>
-            <version>0.3.0-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>metrics-lite</artifactId>
-                    <groupId>org.mcstats.bukkit</groupId>
-                </exclusion>
-            </exclusions>
+            <version>0.2.1</version>
+            <scope>provided</scope>
         </dependency>
-
-        <!-- Utility -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
+            <groupId>com.quartercode</groupId>
+            <artifactId>quarterbukkit-integration</artifactId>
+            <version>0.2.1</version>
         </dependency>
 
         <!-- Test -->
@@ -57,7 +50,7 @@
     <repositories>
         <!-- Spigot -->
         <repository>
-            <id>md5-repo</id>
+            <id>md5-repository</id>
             <name>MD5 Repository</name>
             <url>http://repo.md-5.net/content/groups/public</url>
         </repository>
@@ -83,7 +76,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Shade Plugin & Sources JAR -->
+            <!-- Shade JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -94,24 +87,36 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                        <configuration>
-                            <finalName>${project.name}</finalName>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <relocations>
-                                <relocation>
-                                    <pattern>org.apache.commons.lang3</pattern>
-                                    <shadedPattern>shaded.moviesets.org.apache.commons.lang3</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.quartercode.quarterbukkit</pattern>
-                                    <shadedPattern>shaded.moviesets.com.quartercode.quarterbukkit</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.mcstats</pattern>
-                                    <shadedPattern>shaded.moviesets.com.quartercode.quarterbukkit.org.mcstats</shadedPattern>
-                                </relocation>
-                            </relocations>
-                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Attach sources -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Attach JavaDocs -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

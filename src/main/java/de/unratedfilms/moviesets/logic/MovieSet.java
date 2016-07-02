@@ -2,7 +2,7 @@
 package de.unratedfilms.moviesets.logic;
 
 import java.util.logging.Logger;
-import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.World;
 import de.unratedfilms.moviesets.util.Pos2D;

@@ -2,7 +2,7 @@ name: ${project.name}
 version: ${project.version}
 description: ${project.description}
 prefix: ${project.name}
-authors: [QuarterCode, LoadingByte]
+author: LoadingByte
 main: ${main.class}
 load: startup
 
