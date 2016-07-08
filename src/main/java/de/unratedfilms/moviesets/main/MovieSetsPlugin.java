@@ -9,6 +9,8 @@ import de.unratedfilms.moviesets.gen.MovieSetsWorldGenerator;
 
 public class MovieSetsPlugin extends JavaPlugin {
 
+    private boolean quarterBukkitInstalled;
+
     @Override
     public void onEnable() {
 
@@ -18,13 +20,16 @@ public class MovieSetsPlugin extends JavaPlugin {
             return;
         }
 
+        quarterBukkitInstalled = true;
         MovieSetsPluginExecutor.onEnable(this);
     }
 
     @Override
     public void onDisable() {
 
-        MovieSetsPluginExecutor.onDisable(this);
+        if (quarterBukkitInstalled) {
+            MovieSetsPluginExecutor.onDisable(this);
+        }
     }
 
     @Override
