@@ -1,3 +1,9 @@
+1.0.4
+-----
+
+### Fixes
+* Fixed a ClassNotFoundException being thrown if QuarterBukkit has not been automatically installed yet.
+
 1.0.3
 -----
 
