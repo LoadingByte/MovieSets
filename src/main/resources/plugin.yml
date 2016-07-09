@@ -3,8 +3,10 @@ version: ${project.version}
 description: ${project.description}
 prefix: ${project.name}
 author: LoadingByte
+website: ${url}
 main: ${main.class}
 load: startup
+softdepend: [QuarterBukkit-Plugin]
 
 commands:
     moviesets:
