@@ -3,7 +3,7 @@
 
     <groupId>de.unratedfilms</groupId>
     <artifactId>moviesets</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <packaging>jar</packaging>
 
     <name>MovieSets</name>
@@ -52,13 +52,13 @@
         <dependency>
             <groupId>com.quartercode</groupId>
             <artifactId>quarterbukkit-plugin</artifactId>
-            <version>0.2.1</version>
+            <version>0.3.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.quartercode</groupId>
             <artifactId>quarterbukkit-integration</artifactId>
-            <version>0.2.1</version>
+            <version>0.3.0</version>
         </dependency>
 
         <!-- Test -->
