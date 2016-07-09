@@ -1,3 +1,15 @@
+1.0.6
+-----
+
+### Fixes
+* Added a missing changelog entry to version 1.0.5.
+
+1.0.5
+-----
+
+### Fixes
+* Fixed the plugin not always loading after QuarterBukkit, which resulted in all kinds of crazy exceptions.
+
 1.0.4
 -----
 
