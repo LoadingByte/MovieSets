@@ -16,10 +16,7 @@ class MovieSetsPluginExecutor {
 
         new ExceptionListener(plugin);
 
-        CommandExecutor commandExecutor = new CommandExecutor(plugin);
-        plugin.getCommand("sets").setExecutor(commandExecutor);
-        plugin.getCommand("sets").setTabCompleter(commandExecutor);
-
+        CommandExecutor commandExecutor = new CommandExecutor(plugin, "moviesets");
         commandExecutor.addCommandHandler(new HelpCommand());
         commandExecutor.addCommandHandler(new InfoCommand());
         commandExecutor.addCommandHandler(new ListCommand());
