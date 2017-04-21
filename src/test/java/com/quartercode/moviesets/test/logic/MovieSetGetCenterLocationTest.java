@@ -2,14 +2,16 @@
 package com.quartercode.moviesets.test.logic;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.bukkit.Location;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 import de.unratedfilms.moviesets.logic.Consts;
 import de.unratedfilms.moviesets.logic.MovieSet;
 
@@ -51,7 +53,7 @@ public class MovieSetGetCenterLocationTest {
     @Test
     public void testGetGridPosition() {
 
-        Location actualLoc = new MovieSet(index, null, null).getCenterLocation();
+        Location<World> actualLoc = new MovieSet(index, mock(World.class), "").getCenterLocation();
         assertEquals("Center location x coordinate", expectedX, actualLoc.getBlockX());
         assertEquals("Center location y coordinate", 0, actualLoc.getBlockY());
         assertEquals("Center location z coordinate", expectedZ, actualLoc.getBlockZ());

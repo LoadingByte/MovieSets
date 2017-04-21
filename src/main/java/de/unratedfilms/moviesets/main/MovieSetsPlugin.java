@@ -1,41 +1,41 @@
 
 package de.unratedfilms.moviesets.main;
 
-import org.bukkit.Bukkit;
-import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.plugin.java.JavaPlugin;
-import com.quartercode.quarterbukkit.QuarterBukkitIntegration;
-import de.unratedfilms.moviesets.gen.MovieSetsWorldGenerator;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
+import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.gen.WorldGeneratorModifier;
+import de.unratedfilms.moviesets.command.ClearCommand;
+import de.unratedfilms.moviesets.command.GotoCommand;
+import de.unratedfilms.moviesets.command.HelpCommand;
+import de.unratedfilms.moviesets.command.InfoCommand;
+import de.unratedfilms.moviesets.command.ListCommand;
+import de.unratedfilms.moviesets.command.NameCommand;
+import de.unratedfilms.moviesets.command.UnnameCommand;
+import de.unratedfilms.moviesets.gen.MovieSetsWorldGeneratorModifier;
 
-public class MovieSetsPlugin extends JavaPlugin {
+@Plugin (id = "moviesets")
+public class MovieSetsPlugin {
 
-    private boolean quarterBukkitInstalled;
+    @Listener
+    public void onGamePreInitialization(GamePreInitializationEvent event) {
 
-    @Override
-    public void onEnable() {
+        Sponge.getCommandManager().register(this, CommandSpec.builder()
+                .description(Text.of("The main and only command for controlling the MovieSets plugin"))
+                .permission("moviesets.command.help")
+                .executor(new HelpCommand())
+                .child(InfoCommand.SPEC, "info")
+                .child(ListCommand.SPEC, "list", "ls", "l")
+                .child(GotoCommand.SPEC, "goto", "tp")
+                .child(NameCommand.SPEC, "name", "create")
+                .child(UnnameCommand.SPEC, "unname", "remove", "delete")
+                .child(ClearCommand.SPEC, "clear")
+                .build(), "moviesets", "msets", "sets");
 
-        // QuarterBukkit
-        if (!QuarterBukkitIntegration.integrate(this)) {
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        quarterBukkitInstalled = true;
-        MovieSetsPluginExecutor.onEnable(this);
-    }
-
-    @Override
-    public void onDisable() {
-
-        if (quarterBukkitInstalled) {
-            MovieSetsPluginExecutor.onDisable(this);
-        }
-    }
-
-    @Override
-    public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
-
-        return new MovieSetsWorldGenerator();
+        Sponge.getRegistry().register(WorldGeneratorModifier.class, new MovieSetsWorldGeneratorModifier());
     }
 
 }

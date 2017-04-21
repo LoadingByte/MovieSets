@@ -2,9 +2,9 @@
 package de.unratedfilms.moviesets.logic;
 
 import java.util.logging.Logger;
-import org.apache.commons.lang.Validate;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.apache.commons.lang3.Validate;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 import de.unratedfilms.moviesets.util.Pos2D;
 
 public class MovieSet {
@@ -79,7 +79,7 @@ public class MovieSet {
         } else if (4 * square(k + 1) < index && index <= 2 * (k + 1) * (2 * k + 3)) {
             return new Pos2D(-k - 1, index - 4 * square(k) - 9 * k - 5);
         } else {
-            log.severe("[MovieSet] Programming error: Cannot calculate grid position of movie set index " + index + " because it doesn't seem to fit into the programmed categories.");
+            log.severe("[MovieSet] Programming error: Cannot calculate grid position of movie set index " + index + " because it doesn't seem to fit into the programmed categories");
             return null;
         }
     }
@@ -89,12 +89,12 @@ public class MovieSet {
         return n * n;
     }
 
-    public Location getCenterLocation() {
+    public Location<World> getCenterLocation() {
 
         Pos2D gridPosition = getGridPosition();
         int x = gridPosition.getX() * (Consts.SET_DIAMETER + Consts.SET_GAP);
         int z = gridPosition.getZ() * (Consts.SET_DIAMETER + Consts.SET_GAP);
-        return new Location(world, x, 0, z);
+        return new Location<>(world, x, 0, z);
     }
 
     @Override

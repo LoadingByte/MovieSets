@@ -19,8 +19,6 @@ public class Consts {
      */
     public static final int SET_GAP      = 100;
 
-    private Consts() {
-
-    }
+    private Consts() {}
 
 }

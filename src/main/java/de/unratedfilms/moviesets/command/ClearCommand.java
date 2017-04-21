@@ -1,37 +1,40 @@
 
 package de.unratedfilms.moviesets.command;
 
-import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import com.quartercode.quarterbukkit.api.command.Command;
-import com.quartercode.quarterbukkit.api.command.CommandHandler;
-import com.quartercode.quarterbukkit.api.command.CommandInfo;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.world.World;
 import de.unratedfilms.moviesets.logic.MovieSetStorage;
 
-public class ClearCommand implements CommandHandler {
+public class ClearCommand implements CommandExecutor {
+
+    public static final CommandSpec SPEC = CommandSpec.builder()
+            .description(Text.of("Removes the names of all named sets, leaving an empty set list"))
+            .permission("moviesets.command.clear")
+            .executor(new ClearCommand())
+            .build();
 
     @Override
-    public CommandInfo getInfo() {
+    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 
-        return new CommandInfo(true, null, "Removes the names of all named sets, leaving an empty set list.", "moviesets.command.clear", "clear");
-    }
-
-    @Override
-    public void execute(Command command) {
-
-        CommandSender sender = command.getSender();
-        if (! (sender instanceof Entity)) {
-            sender.sendMessage(ChatColor.DARK_RED + "This command must be executed by an entity.");
-            return;
+        if (! (src instanceof Player)) {
+            throw new CommandException(Text.of("This command must be executed by a player"));
         }
 
-        World world = ((Entity) sender).getWorld();
+        World world = ((Player) src).getWorld();
         int setCount = MovieSetStorage.getNamedMovieSets(world).size();
 
         MovieSetStorage.clearNamedMovieSets(world);
-        sender.sendMessage(ChatColor.DARK_GREEN + "Successfully removed all " + setCount + " sets from name list.");
+        src.sendMessage(Text.of(TextColors.DARK_GREEN, "Successfully removed all ", setCount, " sets from name list"));
+
+        return CommandResult.success();
     }
 
 }

@@ -1,33 +1,37 @@
 
 package de.unratedfilms.moviesets.command;
 
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.PluginDescriptionFile;
-import com.quartercode.quarterbukkit.api.command.Command;
-import com.quartercode.quarterbukkit.api.command.CommandHandler;
-import com.quartercode.quarterbukkit.api.command.CommandInfo;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.plugin.PluginContainer;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 
-public class InfoCommand implements CommandHandler {
+public class InfoCommand implements CommandExecutor {
+
+    public static final CommandSpec SPEC = CommandSpec.builder()
+            .description(Text.of("Shows an info page"))
+            .permission("moviesets.command.info")
+            .executor(new InfoCommand())
+            .build();
 
     @Override
-    public CommandInfo getInfo() {
+    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 
-        return new CommandInfo(true, null, "Shows an info page.", "moviesets.command.info", "info");
-    }
+        PluginContainer plg = Sponge.getPluginManager().getPlugin("moviesets").get();
 
-    @Override
-    public void execute(Command command) {
+        src.sendMessage(Text.of(TextColors.GREEN, "==========[ MovieSets Info ]=========="));
+        src.sendMessage(Text.of(TextColors.AQUA, "This is MovieSets version ", TextColors.GOLD, plg.getVersion().orElse("unknown"), TextColors.AQUA, ""));
+        src.sendMessage(Text.of(TextColors.AQUA, plg.getDescription().orElse("no description")));
+        src.sendMessage(Text.of(TextColors.AQUA, "Credits: ", TextColors.GOLD,
+                Text.joinWith(Text.of(TextColors.AQUA, ", ", TextColors.GOLD), plg.getAuthors().stream().map(Text::of).iterator())));
 
-        CommandSender sender = command.getSender();
-        PluginDescriptionFile pdf = Bukkit.getPluginManager().getPlugin("MovieSets").getDescription();
-
-        sender.sendMessage(ChatColor.GREEN + "==========[ MovieSets Info ]==========");
-        sender.sendMessage(ChatColor.AQUA + "This is MovieSets version " + ChatColor.GOLD + pdf.getVersion() + ChatColor.AQUA + ".");
-        sender.sendMessage(ChatColor.AQUA + pdf.getDescription());
-        sender.sendMessage(ChatColor.AQUA + "Credits: " + ChatColor.GOLD + StringUtils.join(pdf.getAuthors(), ChatColor.AQUA + ", " + ChatColor.GOLD));
+        return CommandResult.success();
     }
 
 }

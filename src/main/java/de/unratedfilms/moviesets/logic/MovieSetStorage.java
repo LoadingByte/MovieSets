@@ -13,8 +13,8 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.World;
+import org.apache.commons.lang3.StringUtils;
+import org.spongepowered.api.world.World;
 import de.unratedfilms.moviesets.util.MaybeError;
 
 public class MovieSetStorage {
@@ -39,7 +39,7 @@ public class MovieSetStorage {
                 movieSets.add(new MovieSet(setIndex, world, setName));
             } catch (NumberFormatException e) {
                 log.warning("Can't parse movie set index '" + entry.getKey() + "' in movie set storage file for world '" + world.getName() + "';"
-                        + "ignoring that entry for now, it will be deleted later on.");
+                        + "ignoring that entry for now, it will be deleted later on");
             }
         }
 
@@ -100,7 +100,7 @@ public class MovieSetStorage {
 
             // Case: Given index is invalid
             if (setIndex <= 0) {
-                return new MaybeError.Error<>("Set numbers must be >= 1, the provided number " + information + " is therefore invalid.");
+                return new MaybeError.Error<>("Set numbers must be >= 1, the provided number " + information + " is therefore invalid");
             }
             // Case: Movie set with given index is named
             else if (movieSet != null) {
@@ -115,10 +115,10 @@ public class MovieSetStorage {
             List<MovieSet> matchingSets = getNamedMovieSetsByNameStub(world, information);
 
             if (matchingSets.size() == 0) {
-                return new MaybeError.Error<>("There's no set with a name that starts with '" + information + "'.");
+                return new MaybeError.Error<>("There's no set with a name that starts with '" + information + "'");
             } else if (matchingSets.size() >= 2) {
                 return new MaybeError.Error<>("There are " + matchingSets.size() + " sets with names that start with '" + information + "' ('"
-                        + StringUtils.join(matchingSets, "', '") + "'); please use a longer input.");
+                        + StringUtils.join(matchingSets, "', '") + "'); please use a longer input");
             } else {
                 return new MaybeError.Success<>(matchingSets.get(0));
             }
@@ -152,7 +152,7 @@ public class MovieSetStorage {
 
     private static Properties loadProperties(World world) {
 
-        Path storageFile = world.getWorldFolder().toPath().resolve(STORAGE_FILE_NAME);
+        Path storageFile = world.getDirectory().resolve(STORAGE_FILE_NAME);
 
         Properties properties = new Properties();
 
@@ -160,7 +160,7 @@ public class MovieSetStorage {
             try (Reader reader = Files.newBufferedReader(storageFile, Charset.forName("UTF-8"))) {
                 properties.load(reader);
             } catch (IOException e) {
-                log.log(Level.SEVERE, "Can't read the movie set storage file for the world '" + world.getName() + "' (path is '" + storageFile + "').", e);
+                log.log(Level.SEVERE, "Can't read the movie set storage file for the world '" + world.getName() + "' (path is '" + storageFile + "')", e);
             }
         }
 
@@ -169,17 +169,15 @@ public class MovieSetStorage {
 
     private static void storeProperties(World world, Properties properties) {
 
-        Path storageFile = world.getWorldFolder().toPath().resolve(STORAGE_FILE_NAME);
+        Path storageFile = world.getDirectory().resolve(STORAGE_FILE_NAME);
 
         try (Writer writer = Files.newBufferedWriter(storageFile, Charset.forName("UTF-8"))) {
             properties.store(writer, "Internal MovieSets storage file for this world; do not edit!");
         } catch (IOException e) {
-            log.log(Level.SEVERE, "Can't write the movie set storage file for the world '" + world.getName() + "' (path is '" + storageFile + "').", e);
+            log.log(Level.SEVERE, "Can't write the movie set storage file for the world '" + world.getName() + "' (path is '" + storageFile + "')", e);
         }
     }
 
-    private MovieSetStorage() {
-
-    }
+    private MovieSetStorage() {}
 
 }

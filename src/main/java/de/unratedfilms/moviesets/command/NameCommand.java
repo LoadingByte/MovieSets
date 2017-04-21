@@ -1,74 +1,68 @@
 
 package de.unratedfilms.moviesets.command;
 
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.ChatColor;
-import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import com.quartercode.quarterbukkit.api.command.Command;
-import com.quartercode.quarterbukkit.api.command.CommandHandler;
-import com.quartercode.quarterbukkit.api.command.CommandInfo;
+import org.apache.commons.lang3.StringUtils;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
+import de.unratedfilms.moviesets.command.elements.MovieSetElement;
 import de.unratedfilms.moviesets.logic.MovieSet;
 import de.unratedfilms.moviesets.logic.MovieSetStorage;
 
-public class NameCommand implements CommandHandler {
+public class NameCommand implements CommandExecutor {
+
+    public static final CommandSpec SPEC = CommandSpec.builder()
+            .description(Text.of("Declares the new name of the set with the given number or name stub"))
+            .permission("moviesets.command.name")
+            .arguments(
+                    GenericArguments.onlyOne(new MovieSetElement(Text.of("set no. | set name stub"))),
+                    GenericArguments.onlyOne(GenericArguments.string(Text.of("new set name"))))
+            .executor(new ClearCommand())
+            .build();
 
     @Override
-    public CommandInfo getInfo() {
+    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 
-        return new CommandInfo(true, "<Set no.> <Set name>", "Declares the name of the set with the given number.", "moviesets.command.name", "name");
-    }
-
-    @Override
-    public void execute(Command command) {
-
-        CommandSender sender = command.getSender();
-        if (! (sender instanceof Entity)) {
-            sender.sendMessage(ChatColor.DARK_RED + "This command must be executed by an entity.");
-            return;
+        if (! (src instanceof Player)) {
+            throw new CommandException(Text.of("This command must be executed by a player"));
         }
 
-        String[] arguments = command.getArguments();
-        if (arguments.length != 2) {
-            sender.sendMessage(ChatColor.DARK_RED + "This command requires exactly 2 arguments.");
-            return;
+        if (!args.hasAny("set no. | set name stub")) {
+            throw new CommandException(Text.of("This command requires you to provide a set as an argument"), true);
+        }
+        if (!args.hasAny("new set name")) {
+            throw new CommandException(Text.of("This command requires you to provide a new set name as an argument"), true);
         }
 
-        doNaming(sender, arguments[0], arguments[1]);
-    }
+        MovieSet set = args.<MovieSet> getOne("set no. | set name stub").get();
+        String newName = args.<String> getOne("new set name").get();
 
-    private void doNaming(CommandSender sender, String numberArgument, String nameArgument) {
-
-        World world = ((Entity) sender).getWorld();
-
-        int setIndex;
-        try {
-            setIndex = Integer.parseInt(numberArgument);
-
-            if (setIndex <= 0) {
-                sender.sendMessage(ChatColor.DARK_RED + "Set numbers must be >= 1, the provided number " + numberArgument + " is therefore invalid.");
-                return;
-            }
-        } catch (NumberFormatException e) {
-            sender.sendMessage(ChatColor.DARK_RED + numberArgument + " is not a valid set number.");
-            return;
+        if (StringUtils.isBlank(newName)) {
+            throw new CommandException(Text.of("Can't use a blank string as the new set name"));
+        }
+        if (StringUtils.isNumeric(newName)) {
+            throw new CommandException(Text.of("Can't use a string which only contains numbers as the new set name, the provided '" + newName + "' is therefore invalid"));
+        }
+        if (MovieSetStorage.getNamedMovieSetByName(set.getWorld(), newName) != null) {
+            throw new CommandException(Text.of("There already exists a set with the name '" + newName + "'"));
         }
 
-        if (StringUtils.isBlank(nameArgument)) {
-            sender.sendMessage(ChatColor.DARK_RED + "Can't use a blank string as set name.");
-            return;
-        } else if (StringUtils.isNumeric(nameArgument)) {
-            sender.sendMessage(ChatColor.DARK_RED + "Can't use a string which only contains numbers as set name, the provided '" + nameArgument + "' is therefore invalid.");
-            return;
-        } else if (MovieSetStorage.getNamedMovieSetByName(world, nameArgument) != null) {
-            sender.sendMessage(ChatColor.DARK_RED + "There already exists a set with the name '" + nameArgument + "'.");
-            return;
-        }
+        MovieSetStorage.addNamedMovieSet(new MovieSet(set.getIndex(), set.getWorld(), newName));
 
-        MovieSetStorage.addNamedMovieSet(new MovieSet(setIndex, world, nameArgument));
-        sender.sendMessage(ChatColor.DARK_GREEN + "Set " + ChatColor.GOLD + setIndex + ChatColor.DARK_GREEN + " successfully named '"
-                + ChatColor.DARK_AQUA + nameArgument + ChatColor.DARK_GREEN + "'.");
+        src.sendMessage(Text.of(
+                TextColors.DARK_GREEN, "Set ",
+                TextColors.GOLD, set.getIndex(),
+                TextColors.DARK_GREEN, " successfully named '",
+                TextColors.DARK_AQUA, newName,
+                TextColors.DARK_GREEN, "'"));
+        return CommandResult.success();
     }
 
 }

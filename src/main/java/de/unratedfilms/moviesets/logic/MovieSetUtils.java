@@ -7,6 +7,9 @@ public class MovieSetUtils {
 
     /**
      * Checks whether the given block location is part of a movie set.
+     *
+     * @param pos The block location to check.
+     * @return Whether or not the given block is part of the movie set.
      */
     public static boolean isInsideMovieSet(Pos2D pos) {
 
@@ -32,8 +35,6 @@ public class MovieSetUtils {
         return mx <= zeroMovieSetRadius && mz <= zeroMovieSetRadius;
     }
 
-    private MovieSetUtils() {
-
-    }
+    private MovieSetUtils() {}
 
 }
