@@ -1,0 +1,66 @@
+buildscript {
+    repositories {
+        maven { url = 'https://plugins.gradle.org/m2/' }
+    }
+    dependencies {
+        classpath 'gradle.plugin.org.spongepowered:spongegradle:0.8.1'
+        classpath 'org.hibernate.build.gradle:gradle-maven-publish-auth:2.0.1'
+    }
+}
+
+// Apply plugins
+apply plugin: 'org.spongepowered.plugin'
+apply plugin: 'maven-publish'
+apply plugin: 'maven-publish-auth'
+
+// Basic project information
+group = 'de.unratedfilms'
+version = '2.0.0-SNAPSHOT'
+description = 'A Sponge plugin that generates and manages worlds that are sectioned into different areas, with each of them being able to be used as a movie set.'
+ext.url = 'https://quartercode.com/wiki/MovieSets'
+
+sponge.plugin.meta {
+    name = 'MovieSets'
+    authors = [ 'LoadingByte' ]
+}
+
+// Minimum java version
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile 'org.spongepowered:spongeapi:5.1.0'
+
+    testCompile 'junit:junit:4.+'
+    testCompile 'org.mockito:mockito-core:2.+'
+}
+
+// Task for creating a source jar
+task sourceJar(type: Jar) {
+    from sourceSets.main.java
+    from sourceSets.main.resources
+}
+
+// Task for creating a javadoc jar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.destinationDir
+}
+
+// Publish the project artifacts to a maven repository
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourceJar { classifier = 'sources' }
+            artifact javadocJar { classifier = 'javadoc' }
+        }
+    }
+    repositories {
+        maven {
+            name = 'quartercode-deployment'
+            url = version.endsWith('-SNAPSHOT') ?
+                    'http://repo.quartercode.com/content/repositories/snapshots/' :
+                    'http://repo.quartercode.com/content/repositories/releases/'
+        }
+    }
+}
