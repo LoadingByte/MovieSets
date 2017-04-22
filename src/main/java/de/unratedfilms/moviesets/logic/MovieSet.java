@@ -1,19 +1,18 @@
 
 package de.unratedfilms.moviesets.logic;
 
-import java.util.logging.Logger;
+import static de.unratedfilms.moviesets.Consts.LOGGER;
 import org.apache.commons.lang3.Validate;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
+import de.unratedfilms.moviesets.Consts;
 import de.unratedfilms.moviesets.util.Pos2D;
 
 public class MovieSet {
 
-    private final Logger log = Logger.getLogger("Minecraft");
-
-    private int          index;
-    private World        world;
-    private String       name;
+    private int    index;
+    private World  world;
+    private String name;
 
     public MovieSet(int index, World world, String name) {
 
@@ -79,7 +78,7 @@ public class MovieSet {
         } else if (4 * square(k + 1) < index && index <= 2 * (k + 1) * (2 * k + 3)) {
             return new Pos2D(-k - 1, index - 4 * square(k) - 9 * k - 5);
         } else {
-            log.severe("[MovieSet] Programming error: Cannot calculate grid position of movie set index " + index + " because it doesn't seem to fit into the programmed categories");
+            LOGGER.error("Programming error: Cannot calculate grid position of movie set index " + index + " because it doesn't seem to fit into the programmed categories");
             return null;
         }
     }

@@ -14,6 +14,7 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import de.unratedfilms.moviesets.Consts;
 import de.unratedfilms.moviesets.logic.MovieSet;
 import de.unratedfilms.moviesets.logic.MovieSetStorage;
 
@@ -21,7 +22,7 @@ public class ListCommand implements CommandExecutor {
 
     public static final CommandSpec SPEC = CommandSpec.builder()
             .description(Text.of("Lists all named sets alongside their numbers for quick teleportation"))
-            .permission("moviesets.command.list")
+            .permission(Consts.PLUGIN_ID + ".command.list")
             .executor(new ListCommand())
             .build();
 
@@ -32,7 +33,7 @@ public class ListCommand implements CommandExecutor {
             throw new CommandException(Text.of("This command must be executed by a player"));
         }
 
-        src.sendMessage(Text.of(TextColors.GREEN, "==========[ MovieSets List ]=========="));
+        src.sendMessage(Text.of(TextColors.GREEN, "==========[ " + Consts.PLUGIN_NAME + " List ]=========="));
 
         List<MovieSet> sets = MovieSetStorage.getNamedMovieSets( ((Player) src).getWorld());
         if (sets.isEmpty()) {

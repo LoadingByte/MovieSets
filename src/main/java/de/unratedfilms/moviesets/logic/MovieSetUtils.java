@@ -1,6 +1,7 @@
 
 package de.unratedfilms.moviesets.logic;
 
+import de.unratedfilms.moviesets.Consts;
 import de.unratedfilms.moviesets.util.Pos2D;
 
 public class MovieSetUtils {

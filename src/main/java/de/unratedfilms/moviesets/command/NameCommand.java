@@ -12,6 +12,7 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import de.unratedfilms.moviesets.Consts;
 import de.unratedfilms.moviesets.command.elements.MovieSetElement;
 import de.unratedfilms.moviesets.logic.MovieSet;
 import de.unratedfilms.moviesets.logic.MovieSetStorage;
@@ -20,7 +21,7 @@ public class NameCommand implements CommandExecutor {
 
     public static final CommandSpec SPEC = CommandSpec.builder()
             .description(Text.of("Declares the new name of the set with the given number or name stub"))
-            .permission("moviesets.command.name")
+            .permission(Consts.PLUGIN_ID + ".command.name")
             .arguments(
                     GenericArguments.onlyOne(new MovieSetElement(Text.of("set no. | set name stub"))),
                     GenericArguments.onlyOne(GenericArguments.string(Text.of("new set name"))))

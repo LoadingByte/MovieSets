@@ -9,6 +9,7 @@ import org.spongepowered.api.world.biome.BiomeTypes;
 import org.spongepowered.api.world.gen.WorldGenerator;
 import org.spongepowered.api.world.gen.WorldGeneratorModifier;
 import org.spongepowered.api.world.storage.WorldProperties;
+import de.unratedfilms.moviesets.Consts;
 
 public class MovieSetsWorldGeneratorModifier implements WorldGeneratorModifier {
 
@@ -31,13 +32,13 @@ public class MovieSetsWorldGeneratorModifier implements WorldGeneratorModifier {
     @Override
     public String getId() {
 
-        return "moviesets";
+        return Consts.PLUGIN_ID;
     }
 
     @Override
     public String getName() {
 
-        return "MovieSets Modifier";
+        return Consts.PLUGIN_NAME + " Modifier";
     }
 
 }

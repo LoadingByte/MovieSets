@@ -1,7 +1,7 @@
 
 package de.unratedfilms.moviesets.gen;
 
-import static de.unratedfilms.moviesets.logic.Consts.SET_HEIGHT;
+import static de.unratedfilms.moviesets.Consts.SET_HEIGHT;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import org.spongepowered.api.block.BlockTypes;

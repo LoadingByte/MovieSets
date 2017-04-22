@@ -11,6 +11,7 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import de.unratedfilms.moviesets.Consts;
 import de.unratedfilms.moviesets.command.elements.MovieSetElement;
 import de.unratedfilms.moviesets.logic.MovieSet;
 
@@ -18,7 +19,7 @@ public class GotoCommand implements CommandExecutor {
 
     public static final CommandSpec SPEC = CommandSpec.builder()
             .description(Text.of("Teleports you to the center of the set with the given number or name stub"))
-            .permission("moviesets.command.goto")
+            .permission(Consts.PLUGIN_ID + ".command.goto")
             .arguments(
                     GenericArguments.onlyOne(new MovieSetElement(Text.of("set no. | set name stub"))))
             .executor(new ClearCommand())

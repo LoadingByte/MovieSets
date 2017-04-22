@@ -1,6 +1,7 @@
 
 package de.unratedfilms.moviesets.logic;
 
+import static de.unratedfilms.moviesets.Consts.LOGGER;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
@@ -11,17 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.spongepowered.api.world.World;
+import de.unratedfilms.moviesets.Consts;
 import de.unratedfilms.moviesets.util.MaybeError;
 
 public class MovieSetStorage {
 
-    private static final String STORAGE_FILE_NAME = "moviesets.properties";
-
-    private static final Logger log               = Logger.getLogger("Minecraft");
+    private static final String STORAGE_FILE_NAME = Consts.PLUGIN_ID + ".properties";
 
     public static List<MovieSet> getNamedMovieSets(World world) {
 
@@ -38,7 +36,7 @@ public class MovieSetStorage {
                 // When the index parsing has been successful
                 movieSets.add(new MovieSet(setIndex, world, setName));
             } catch (NumberFormatException e) {
-                log.warning("Can't parse movie set index '" + entry.getKey() + "' in movie set storage file for world '" + world.getName() + "';"
+                LOGGER.warn("Can't parse movie set index '" + entry.getKey() + "' in movie set storage file for world '" + world.getName() + "';"
                         + "ignoring that entry for now, it will be deleted later on");
             }
         }
@@ -160,7 +158,7 @@ public class MovieSetStorage {
             try (Reader reader = Files.newBufferedReader(storageFile, Charset.forName("UTF-8"))) {
                 properties.load(reader);
             } catch (IOException e) {
-                log.log(Level.SEVERE, "Can't read the movie set storage file for the world '" + world.getName() + "' (path is '" + storageFile + "')", e);
+                LOGGER.error("Can't read the movie set storage file for the world '" + world.getName() + "' (path is '" + storageFile + "')", e);
             }
         }
 
@@ -174,7 +172,7 @@ public class MovieSetStorage {
         try (Writer writer = Files.newBufferedWriter(storageFile, Charset.forName("UTF-8"))) {
             properties.store(writer, "Internal MovieSets storage file for this world; do not edit!");
         } catch (IOException e) {
-            log.log(Level.SEVERE, "Can't write the movie set storage file for the world '" + world.getName() + "' (path is '" + storageFile + "')", e);
+            LOGGER.error("Can't write the movie set storage file for the world '" + world.getName() + "' (path is '" + storageFile + "')", e);
         }
     }
 

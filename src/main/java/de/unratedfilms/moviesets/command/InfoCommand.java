@@ -11,22 +11,23 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import de.unratedfilms.moviesets.Consts;
 
 public class InfoCommand implements CommandExecutor {
 
     public static final CommandSpec SPEC = CommandSpec.builder()
             .description(Text.of("Shows an info page"))
-            .permission("moviesets.command.info")
+            .permission(Consts.PLUGIN_ID + ".command.info")
             .executor(new InfoCommand())
             .build();
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 
-        PluginContainer plg = Sponge.getPluginManager().getPlugin("moviesets").get();
+        PluginContainer plg = Sponge.getPluginManager().getPlugin(Consts.PLUGIN_ID).get();
 
-        src.sendMessage(Text.of(TextColors.GREEN, "==========[ MovieSets Info ]=========="));
-        src.sendMessage(Text.of(TextColors.AQUA, "This is MovieSets version ", TextColors.GOLD, plg.getVersion().orElse("unknown"), TextColors.AQUA, ""));
+        src.sendMessage(Text.of(TextColors.GREEN, "==========[ " + Consts.PLUGIN_NAME + " Info ]=========="));
+        src.sendMessage(Text.of(TextColors.AQUA, "This is " + Consts.PLUGIN_NAME + " version ", TextColors.GOLD, plg.getVersion().orElse("unknown"), TextColors.AQUA, ""));
         src.sendMessage(Text.of(TextColors.AQUA, plg.getDescription().orElse("no description")));
         src.sendMessage(Text.of(TextColors.AQUA, "Credits: ", TextColors.GOLD,
                 Text.joinWith(Text.of(TextColors.AQUA, ", ", TextColors.GOLD), plg.getAuthors().stream().map(Text::of).iterator())));

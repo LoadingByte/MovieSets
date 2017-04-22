@@ -12,7 +12,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
-import de.unratedfilms.moviesets.logic.Consts;
+import de.unratedfilms.moviesets.Consts;
 import de.unratedfilms.moviesets.logic.MovieSet;
 
 @RunWith (Parameterized.class)

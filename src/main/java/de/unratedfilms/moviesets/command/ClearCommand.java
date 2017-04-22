@@ -11,13 +11,14 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.World;
+import de.unratedfilms.moviesets.Consts;
 import de.unratedfilms.moviesets.logic.MovieSetStorage;
 
 public class ClearCommand implements CommandExecutor {
 
     public static final CommandSpec SPEC = CommandSpec.builder()
             .description(Text.of("Removes the names of all named sets, leaving an empty set list"))
-            .permission("moviesets.command.clear")
+            .permission(Consts.PLUGIN_ID + ".command.clear")
             .executor(new ClearCommand())
             .build();
 
