@@ -1,6 +1,7 @@
 
 package de.unratedfilms.moviesets.command;
 
+import static org.spongepowered.api.text.format.TextColors.*;
 import org.apache.commons.lang3.StringUtils;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -11,7 +12,6 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 import de.unratedfilms.moviesets.Consts;
 import de.unratedfilms.moviesets.command.elements.MovieSetElement;
 import de.unratedfilms.moviesets.logic.MovieSet;
@@ -32,37 +32,37 @@ public class NameCommand implements CommandExecutor {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 
         if (! (src instanceof Player)) {
-            throw new CommandException(Text.of("This command must be executed by a player"));
+            throw new CommandException(Text.of("This command must be executed by a player."));
         }
 
         if (!args.hasAny("set no. | set name stub")) {
-            throw new CommandException(Text.of("This command requires you to provide a set as an argument"), true);
+            throw new CommandException(Text.of("This command requires you to provide a set as an argument."), true);
         }
         if (!args.hasAny("new set name")) {
-            throw new CommandException(Text.of("This command requires you to provide a new set name as an argument"), true);
+            throw new CommandException(Text.of("This command requires you to provide a new set name as an argument."), true);
         }
 
         MovieSet set = args.<MovieSet> getOne("set no. | set name stub").get();
         String newName = args.<String> getOne("new set name").get();
 
         if (StringUtils.isBlank(newName)) {
-            throw new CommandException(Text.of("Can't use a blank string as the new set name"));
+            throw new CommandException(Text.of("Can't use a blank string as the new set name."));
         }
         if (StringUtils.isNumeric(newName)) {
-            throw new CommandException(Text.of("Can't use a string which only contains numbers as the new set name, the provided '" + newName + "' is therefore invalid"));
+            throw new CommandException(Text.of("Can't use a string which only contains numbers as the new set name, the provided '" + newName + "' is therefore invalid."));
         }
         if (MovieSetStorage.getNamedMovieSetByName(set.getWorld(), newName) != null) {
-            throw new CommandException(Text.of("There already exists a set with the name '" + newName + "'"));
+            throw new CommandException(Text.of("There already exists a set with the name '" + newName + "'."));
         }
 
         MovieSetStorage.addNamedMovieSet(new MovieSet(set.getIndex(), set.getWorld(), newName));
 
         src.sendMessage(Text.of(
-                TextColors.DARK_GREEN, "Set ",
-                TextColors.GOLD, set.getIndex(),
-                TextColors.DARK_GREEN, " successfully named '",
-                TextColors.DARK_AQUA, newName,
-                TextColors.DARK_GREEN, "'"));
+                DARK_GREEN, "Set ",
+                GOLD, set.getIndex(),
+                DARK_GREEN, " successfully named '",
+                DARK_AQUA, newName,
+                DARK_GREEN, "'"));
         return CommandResult.success();
     }
 

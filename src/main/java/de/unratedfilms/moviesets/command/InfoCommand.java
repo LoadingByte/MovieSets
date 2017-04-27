@@ -1,6 +1,7 @@
 
 package de.unratedfilms.moviesets.command;
 
+import static org.spongepowered.api.text.format.TextColors.*;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -10,7 +11,6 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 import de.unratedfilms.moviesets.Consts;
 
 public class InfoCommand implements CommandExecutor {
@@ -26,11 +26,11 @@ public class InfoCommand implements CommandExecutor {
 
         PluginContainer plg = Sponge.getPluginManager().getPlugin(Consts.PLUGIN_ID).get();
 
-        src.sendMessage(Text.of(TextColors.GREEN, "==========[ " + Consts.PLUGIN_NAME + " Info ]=========="));
-        src.sendMessage(Text.of(TextColors.AQUA, "This is " + Consts.PLUGIN_NAME + " version ", TextColors.GOLD, plg.getVersion().orElse("unknown"), TextColors.AQUA, ""));
-        src.sendMessage(Text.of(TextColors.AQUA, plg.getDescription().orElse("no description")));
-        src.sendMessage(Text.of(TextColors.AQUA, "Credits: ", TextColors.GOLD,
-                Text.joinWith(Text.of(TextColors.AQUA, ", ", TextColors.GOLD), plg.getAuthors().stream().map(Text::of).iterator())));
+        src.sendMessage(Text.of(GREEN, "==========[ " + Consts.PLUGIN_NAME + " Info ]=========="));
+        src.sendMessage(Text.of(AQUA, "This is " + Consts.PLUGIN_NAME + " version ", GOLD, plg.getVersion().orElse("unknown"), AQUA, ""));
+        src.sendMessage(Text.of(AQUA, plg.getDescription().orElse("no description")));
+        src.sendMessage(Text.of(AQUA, "Credits: ", GOLD,
+                Text.joinWith(Text.of(AQUA, ", ", GOLD), plg.getAuthors().stream().map(Text::of).iterator())));
 
         return CommandResult.success();
     }

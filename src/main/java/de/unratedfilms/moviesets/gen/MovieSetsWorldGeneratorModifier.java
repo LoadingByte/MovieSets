@@ -32,7 +32,7 @@ public class MovieSetsWorldGeneratorModifier implements WorldGeneratorModifier {
     @Override
     public String getId() {
 
-        return Consts.PLUGIN_ID;
+        return Consts.PLUGIN_ID + ":" + Consts.PLUGIN_ID;
     }
 
     @Override
