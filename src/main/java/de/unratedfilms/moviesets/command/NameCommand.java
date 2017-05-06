@@ -39,13 +39,13 @@ public class NameCommand implements CommandExecutor {
         String newName = args.<String> getOne("new set name").get();
 
         if (StringUtils.isBlank(newName)) {
-            throw new CommandException(Text.of("Can't use a blank string as the new set name."));
+            throw new CommandException(Text.of("Can't use a blank string as the new set name."), true);
         }
         if (StringUtils.isNumeric(newName)) {
-            throw new CommandException(Text.of("Can't use a string which only contains numbers as the new set name, the provided '" + newName + "' is therefore invalid."));
+            throw new CommandException(Text.of("Can't use a string which only contains numbers as the new set name, the provided '" + newName + "' is therefore invalid."), true);
         }
         if (MovieSetStorage.getNamedMovieSetByName(set.getWorld(), newName) != null) {
-            throw new CommandException(Text.of("There already exists a set with the name '" + newName + "'."));
+            throw new CommandException(Text.of("There already exists a set with the name '" + newName + "'."), true);
         }
 
         MovieSetStorage.addNamedMovieSet(new MovieSet(set.getIndex(), set.getWorld(), newName));
@@ -55,7 +55,7 @@ public class NameCommand implements CommandExecutor {
                 GOLD, set.getIndex(),
                 DARK_GREEN, " successfully named '",
                 DARK_AQUA, newName,
-                DARK_GREEN, "'"));
+                DARK_GREEN, "'."));
         return CommandResult.success();
     }
 

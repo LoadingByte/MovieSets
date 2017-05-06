@@ -98,7 +98,7 @@ public class MovieSetStorage {
 
             // Case: Given index is invalid
             if (setIndex <= 0) {
-                return new MaybeError.Error<>("Set numbers must be >= 1, the provided number " + information + " is therefore invalid");
+                return new MaybeError.Error<>("Set numbers must be >= 1, the provided number " + information + " is therefore invalid.");
             }
             // Case: Movie set with given index is named
             else if (movieSet != null) {
@@ -113,10 +113,10 @@ public class MovieSetStorage {
             List<MovieSet> matchingSets = getNamedMovieSetsByNameStub(world, information);
 
             if (matchingSets.size() == 0) {
-                return new MaybeError.Error<>("There's no set with a name that starts with '" + information + "'");
+                return new MaybeError.Error<>("There's no set with a name that starts with '" + information + "'.");
             } else if (matchingSets.size() >= 2) {
                 return new MaybeError.Error<>("There are " + matchingSets.size() + " sets with names that start with '" + information + "' ('"
-                        + StringUtils.join(matchingSets, "', '") + "'); please use a longer input");
+                        + StringUtils.join(matchingSets, "', '") + "'); please use a longer input.");
             } else {
                 return new MaybeError.Success<>(matchingSets.get(0));
             }
