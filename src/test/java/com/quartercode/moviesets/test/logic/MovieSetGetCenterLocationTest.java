@@ -5,13 +5,13 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.bukkit.Location;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import de.unratedfilms.moviesets.logic.Consts;
+import de.unratedfilms.moviesets.Consts;
 import de.unratedfilms.moviesets.logic.MovieSet;
+import de.unratedfilms.moviesets.util.Pos2D;
 
 @RunWith (Parameterized.class)
 public class MovieSetGetCenterLocationTest {
@@ -49,12 +49,11 @@ public class MovieSetGetCenterLocationTest {
     }
 
     @Test
-    public void testGetGridPosition() {
+    public void testGetCenterLocation() {
 
-        Location actualLoc = new MovieSet(index, null, null).getCenterLocation();
-        assertEquals("Center location x coordinate", expectedX, actualLoc.getBlockX());
-        assertEquals("Center location y coordinate", 0, actualLoc.getBlockY());
-        assertEquals("Center location z coordinate", expectedZ, actualLoc.getBlockZ());
+        Pos2D actualLoc = new MovieSet(index, null, "").getCenterLocation();
+        assertEquals("Center location x coordinate", expectedX, actualLoc.getX());
+        assertEquals("Center location z coordinate", expectedZ, actualLoc.getZ());
     }
 
 }

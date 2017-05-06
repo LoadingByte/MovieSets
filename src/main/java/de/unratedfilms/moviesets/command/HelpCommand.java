@@ -1,62 +1,67 @@
 
 package de.unratedfilms.moviesets.command;
 
-import java.util.List;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.entity.Player;
-import com.quartercode.quarterbukkit.api.command.Command;
-import com.quartercode.quarterbukkit.api.command.CommandExecutor;
-import com.quartercode.quarterbukkit.api.command.CommandHandler;
-import com.quartercode.quarterbukkit.api.command.CommandInfo;
+import static org.spongepowered.api.text.format.TextColors.*;
+import java.util.Iterator;
+import java.util.Set;
+import org.apache.commons.lang3.reflect.FieldUtils;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandCallable;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandMapping;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.dispatcher.Dispatcher;
+import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.text.Text;
+import de.unratedfilms.moviesets.Consts;
 
-public class HelpCommand implements CommandHandler {
+/*
+ * This command is quite the hack since Sponge doesn't want you to access subcommand metadata for some unknown reason.
+ * Hopefully that's gonna improve in the future.
+ */
+public class HelpCommand implements CommandExecutor {
 
     @Override
-    public CommandInfo getInfo() {
+    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 
-        return new CommandInfo(true, null, "Shows a help page.", "moviesets.command.help", "<empty>", "help");
-    }
+        src.sendMessage(Text.of(GREEN, "==========[ " + Consts.PLUGIN_NAME + " Help ]=========="));
 
-    @Override
-    public void execute(Command command) {
+        CommandMapping cmd = Sponge.getCommandManager().get(Consts.PLUGIN_ID, src).get();
 
-        CommandSender sender = command.getSender();
+        Iterator<Text> aliases = cmd.getAllAliases().stream().sorted((s1, s2) -> Integer.compare(s1.length(), s2.length())).map(str -> Text.of("/", str)).iterator();
+        src.sendMessage(Text.of("Aliases: ", DARK_GREEN,
+                Text.joinWith(Text.of(WHITE, ", ", DARK_GREEN), aliases)));
 
-        sender.sendMessage(ChatColor.GREEN + "==========[ MovieSets Help ]==========");
-
-        PluginCommand registeredCommand = Bukkit.getPluginCommand("moviesets");
-        String aliases = ChatColor.DARK_GREEN + "/" + registeredCommand.getLabel() + ChatColor.AQUA + ", ";
-        for (String alias : registeredCommand.getAliases()) {
-            aliases += ChatColor.DARK_GREEN + "/" + alias + ChatColor.AQUA + ", ";
+        // A really hacky way to get the subcommands; I would be quite astonished if SpongeAPI doesn't offer a better one.
+        Set<? extends CommandMapping> subcmds;
+        try {
+            Dispatcher dp = (Dispatcher) FieldUtils.readDeclaredField( ((CommandSpec) cmd.getCallable()).getExecutor(), "dispatcher" /* in ChildCommandElementExecutor */, true);
+            subcmds = dp.getCommands();
+        } catch (IllegalAccessException e) {
+            // This should never happen!
+            throw new IllegalStateException(e);
         }
-        aliases = aliases.substring(0, aliases.length() - 2);
-        sender.sendMessage("Aliases: " + ChatColor.DARK_GREEN + aliases);
 
-        List<CommandHandler> commandHandlers = ((CommandExecutor) registeredCommand.getExecutor()).getCommandHandlers();
-        for (CommandHandler commandHandler : commandHandlers) {
-            CommandInfo info = commandHandler.getInfo();
+        for (CommandMapping subcmd : subcmds) {
+            CommandCallable subcmdc = subcmd.getCallable();
 
-            if (! (sender instanceof Player) || info.getPermission() == null || ((Player) sender).hasPermission(info.getPermission())) {
-                for (String label : info.getLabels()) {
-                    String printLabel = "";
-                    if (!label.equalsIgnoreCase("<empty>")) {
-                        printLabel = " " + label;
+            if (subcmdc.testPermission(src)) {
+                for (String alias : subcmd.getAllAliases()) {
+                    Text line = Text.of(GOLD, "/", cmd.getPrimaryAlias(), " ", alias);
+                    if (subcmdc.getUsage(src) != null) {
+                        line = Text.of(line, " ", subcmdc.getUsage(src));
                     }
-
-                    String parameterUsage = "";
-                    if (info.getParameterUsage() != null && !info.getParameterUsage().isEmpty()) {
-                        parameterUsage = " " + info.getParameterUsage();
-                    }
-
-                    sender.sendMessage(ChatColor.GOLD + "/" + command.getGlobalLabel() + printLabel + parameterUsage);
+                    src.sendMessage(line);
                 }
 
-                sender.sendMessage(ChatColor.DARK_RED + "  > " + ChatColor.GRAY + info.getDescription());
+                src.sendMessage(Text.of(DARK_RED, " > ", GRAY, subcmdc.getShortDescription(src).get()));
             }
         }
+
+        return CommandResult.success();
     }
 
 }

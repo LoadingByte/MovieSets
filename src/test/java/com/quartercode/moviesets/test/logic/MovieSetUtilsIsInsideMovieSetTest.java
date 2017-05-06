@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import de.unratedfilms.moviesets.logic.Consts;
+import de.unratedfilms.moviesets.Consts;
 import de.unratedfilms.moviesets.logic.MovieSetUtils;
 import de.unratedfilms.moviesets.util.Pos2D;
 
@@ -98,7 +98,7 @@ public class MovieSetUtilsIsInsideMovieSetTest {
     }
 
     @Test
-    public void testGetGridPosition() {
+    public void testIsInsideMovieSet() {
 
         assertEquals("Check result", expectedResult, MovieSetUtils.isInsideMovieSet(new Pos2D(x, z)));
     }
