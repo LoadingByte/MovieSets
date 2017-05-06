@@ -25,7 +25,7 @@ public class NameCommand implements CommandExecutor {
             .arguments(
                     GenericArguments.onlyOne(new MovieSetElement(Text.of("set no. | set name stub"))),
                     GenericArguments.onlyOne(GenericArguments.string(Text.of("new set name"))))
-            .executor(new ClearCommand())
+            .executor(new NameCommand())
             .build();
 
     @Override

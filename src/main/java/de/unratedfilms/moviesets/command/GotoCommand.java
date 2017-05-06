@@ -22,7 +22,7 @@ public class GotoCommand implements CommandExecutor {
             .permission(Consts.PLUGIN_ID + ".command.goto")
             .arguments(
                     GenericArguments.onlyOne(new MovieSetElement(Text.of("set no. | set name stub"))))
-            .executor(new ClearCommand())
+            .executor(new GotoCommand())
             .build();
 
     @Override
