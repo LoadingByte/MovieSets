@@ -3,7 +3,6 @@ package de.unratedfilms.moviesets.logic;
 
 import static de.unratedfilms.moviesets.Consts.LOGGER;
 import org.apache.commons.lang3.Validate;
-import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import de.unratedfilms.moviesets.Consts;
 import de.unratedfilms.moviesets.util.Pos2D;
@@ -88,12 +87,12 @@ public class MovieSet {
         return n * n;
     }
 
-    public Location<World> getCenterLocation() {
+    public Pos2D getCenterLocation() {
 
         Pos2D gridPosition = getGridPosition();
         int x = gridPosition.getX() * (Consts.SET_DIAMETER + Consts.SET_GAP);
         int z = gridPosition.getZ() * (Consts.SET_DIAMETER + Consts.SET_GAP);
-        return new Location<>(world, x, 0, z);
+        return new Pos2D(x, z);
     }
 
     @Override
