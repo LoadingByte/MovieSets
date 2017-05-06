@@ -33,10 +33,6 @@ public class UnnameCommand implements CommandExecutor {
             throw new CommandException(Text.of("This command must be executed by a player."));
         }
 
-        if (!args.hasAny("set no. | set name stub")) {
-            throw new CommandException(Text.of("This command requires you to provide a set as an argument."), true);
-        }
-
         MovieSet set = args.<MovieSet> getOne("set no. | set name stub").get();
 
         MovieSetStorage.removeNamedMovieSet(set);
