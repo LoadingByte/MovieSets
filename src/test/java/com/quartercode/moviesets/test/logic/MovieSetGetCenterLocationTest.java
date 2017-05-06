@@ -51,7 +51,7 @@ public class MovieSetGetCenterLocationTest {
     }
 
     @Test
-    public void testGetGridPosition() {
+    public void testGetCenterLocation() {
 
         Location<World> actualLoc = new MovieSet(index, mock(World.class), "").getCenterLocation();
         assertEquals("Center location x coordinate", expectedX, actualLoc.getBlockX());

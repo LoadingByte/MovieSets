@@ -98,7 +98,7 @@ public class MovieSetUtilsIsInsideMovieSetTest {
     }
 
     @Test
-    public void testGetGridPosition() {
+    public void testIsInsideMovieSet() {
 
         assertEquals("Check result", expectedResult, MovieSetUtils.isInsideMovieSet(new Pos2D(x, z)));
     }
