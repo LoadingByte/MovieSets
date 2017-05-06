@@ -1,3 +1,9 @@
+2.0.0
+-----
+
+### Notes
+* Moved the plugin from Bukkit to Sponge. Bukkit or Bukkit-based servers are no longer supported.
+
 1.0.6
 -----
 
