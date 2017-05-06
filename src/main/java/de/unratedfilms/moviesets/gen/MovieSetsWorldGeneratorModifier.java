@@ -9,12 +9,15 @@ import org.spongepowered.api.world.biome.BiomeTypes;
 import org.spongepowered.api.world.gen.WorldGenerator;
 import org.spongepowered.api.world.gen.WorldGeneratorModifier;
 import org.spongepowered.api.world.storage.WorldProperties;
+import com.flowpowered.math.vector.Vector3i;
 import de.unratedfilms.moviesets.Consts;
 
 public class MovieSetsWorldGeneratorModifier implements WorldGeneratorModifier {
 
     @Override
     public void modifyWorldGenerator(WorldProperties world, DataContainer settings, WorldGenerator worldGenerator) {
+
+        world.setSpawnPosition(Vector3i.from(0, 1, 0));
 
         worldGenerator.getGenerationPopulators().clear();
         worldGenerator.getPopulators().clear();
